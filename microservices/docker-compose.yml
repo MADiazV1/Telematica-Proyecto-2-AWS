@@ -1,0 +1,65 @@
+services:
+  auth-db:
+    image: mysql:8.0
+    container_name: auth-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: authdb
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: auth_pass
+    ports:
+      - "3308:3306"  # O puedes mapear a otro puerto externo, como 3308
+    volumes:
+      - auth_db_data:/var/lib/mysql
+    networks:
+      - bookstore-net
+    
+  catalog-db:
+    image: mysql:8.0
+    container_name: catalog-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: catalogdb
+      MYSQL_USER: catalog_user
+      MYSQL_PASSWORD: catalog_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - catalog_db_data:/var/lib/mysql
+    networks:
+      - bookstore-net
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    env_file:
+      - ./auth-service/.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - auth-db
+    networks:
+      - bookstore-net
+
+  catalog-service:
+    build:
+      context: ./catalog-service
+    container_name: catalog-service
+    env_file:
+      - ./catalog-service/.env
+    ports:
+      - "5001:5001"
+    depends_on:
+      - catalog-db
+    networks:
+      - bookstore-net
+
+networks:
+  bookstore-net:
+
+volumes:
+  auth_db_data:
+  catalog_db_data:

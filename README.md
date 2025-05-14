@@ -4,6 +4,23 @@ Plataforma web distribuida para la gestión de libros, compras y administración
 
 ---
 
+## 📖 Contenido de la Wiki
+
+La wiki del proyecto está organizada por objetivos e incluye documentación visual y técnica detallada:
+
+- **🏠 Home**: Introducción general, alcance del proyecto y enlaces clave.
+- **🏗️ Objetivo 1: Despliegue Monolítico**
+  - Docker, NGINX, Certificados SSL y dominio personalizado en una sola VM EC2.
+- **⚖️ Objetivo 2: Escalabilidad Horizontal**
+  - Autoescalado con múltiples EC2, Load Balancer, AMIs y base de datos centralizada.
+- **🔄 Objetivo 3: Reingeniería con Microservicios**
+  - Separación en servicios independientes usando Docker, JWT, API REST, y frontend desacoplado.
+- **🎥 Video Explicativo**: Sustentación de cada uno de los integrantes explicando todo el contenido de este proyecto.
+
+Accede a la [Wiki del Proyecto](./wiki) 
+
+---
+
 ## 🧱 Microservicios
 
 - **auth-service**: Registro, login y emisión de tokens JWT.
@@ -69,3 +86,7 @@ Puedes probar las APIs directamente desde Postman o tu frontend `web-service`. C
 - Sesión y autenticación persistente en `web-service`.
 
 ---
+
+## 📄 Licencia
+
+Proyecto académico para el curso de Tópicos Especiales en Telemática. Universidad EAFIT. 2025-1.

@@ -1,10 +1,19 @@
-from extensions import db
+from src.extensions import db
 
-class DeliveryProvider(db.Model):
+class Payment(db.Model):
+    __tablename__ = "payments"
+
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    coverage_area = db.Column(db.String(150))
-    cost = db.Column(db.Float, nullable=False)
+    purchase_id = db.Column(db.Integer, db.ForeignKey("purchases.id"), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    method = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(50), default="Pending")
 
-    def __repr__(self):
-        return f'<DeliveryProvider {self.name} (${self.cost})>'
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "purchase_id": self.purchase_id,
+            "amount": self.amount,
+            "method": self.method,
+            "status": self.status
+        }

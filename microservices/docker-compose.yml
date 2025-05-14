@@ -30,6 +30,22 @@ services:
       - catalog_db_data:/var/lib/mysql
     networks:
       - bookstore-net
+  
+  order-db:
+    image: mysql:8.0
+    container_name: order-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: orderdb
+      MYSQL_USER: order_user
+      MYSQL_PASSWORD: order_pass
+    ports:
+      - "3310:3306"
+    volumes:
+      - order_db_data:/var/lib/mysql
+    networks:
+      - bookstore-net
 
   auth-service:
     build:
@@ -57,9 +73,52 @@ services:
     networks:
       - bookstore-net
 
+  order-service:
+    build:
+      context: ./order-service
+    container_name: order-service
+    env_file:
+      - ./order-service/.env
+    ports:
+      - "5002:5002"
+    depends_on:
+      - order-db
+    networks:
+      - bookstore-net
+  
+  admin-service:
+    build:
+      context: ./admin-service
+    container_name: admin-service
+    env_file:
+      - ./admin-service/.env
+    ports:
+      - "5003:5003"
+    depends_on:
+      - auth-db
+    networks:
+      - bookstore-net
+  
+  web-service:
+    build:
+      context: ./web-service
+    container_name: web-service
+    env_file:
+      - ./web-service/.env
+    ports:
+      - "8000:5000"
+    depends_on:
+      - auth-service
+      - catalog-service
+      - order-service
+      - admin-service
+    networks:
+      - bookstore-net
+  
 networks:
   bookstore-net:
 
 volumes:
   auth_db_data:
   catalog_db_data:
+  order_db_data:

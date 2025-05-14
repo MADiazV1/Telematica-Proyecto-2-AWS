@@ -12,6 +12,7 @@ def register_user(data):
     name = data.get("name")
     email = data.get("email")
     password = data.get("password")
+    role = data.get("role", "user")
 
     if not all([name, email, password]):
         return {"error": "Faltan campos obligatorios"}, 400
@@ -19,7 +20,7 @@ def register_user(data):
     if User.query.filter_by(email=email).first():
         return {"error": "El usuario ya existe"}, 409
 
-    user = User(name=name, email=email)
+    user = User(name=name, email=email, role=role)
     user.set_password(password)
 
     db.session.add(user)
@@ -40,7 +41,7 @@ def authenticate_user(data):
     user = User.query.filter_by(email=email).first()
 
     if user and user.check_password(password):
-        token = generate_token(user.id, user.name)
-        return {"token": token}, 200
+        token = generate_token(user.id, user.name, user.role)
+        return {"token": token, "name": user.name, "role": user.role}, 200
 
     return {"error": "Credenciales inválidas"}, 401

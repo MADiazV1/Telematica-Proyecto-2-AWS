@@ -8,19 +8,21 @@ import jwt
 
 SECRET_KEY = os.getenv("SECRET_KEY", "default-dev-secret")
 
-def generate_token(user_id, name, expires_in=3600):
+def generate_token(user_id, name, role, expires_in=3600):
     """
-	Generate a JWT token for a user.
-	Args:
-		user_id (int): The ID of the user.
-		name (str): The name of the user.
-		expires_in (int, optional): Token expiration time in seconds. Defaults to 3600.
-	Returns:
-		str: Encoded JWT token.
-	"""
+    Generate a JWT token for a user.
+    Args:
+        user_id (int): The ID of the user.
+        name (str): The name of the user.
+        role (str): The user's role.
+        expires_in (int, optional): Token expiration in seconds. Defaults to 3600.
+    Returns:
+        str: Encoded JWT token.
+    """
     payload = {
         "id": user_id,
         "name": name,
+        "role": role,
         "exp": datetime.now(timezone.utc) + timedelta(seconds=expires_in)
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")

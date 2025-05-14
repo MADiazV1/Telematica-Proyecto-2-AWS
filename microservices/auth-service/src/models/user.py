@@ -15,6 +15,7 @@ class User(db.Model):
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
+    role = db.Column(db.String(50), default="user")  # nuevo
 
     def set_password(self, password):
         """

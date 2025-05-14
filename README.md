@@ -17,7 +17,7 @@ La wiki del proyecto está organizada por objetivos e incluye documentación vis
   - Separación en servicios independientes usando Docker, JWT, API REST, y frontend desacoplado.
 - **🎥 Video Explicativo**: Sustentación de cada uno de los integrantes explicando todo el contenido de este proyecto.
 
-Accede a la [Wiki del Proyecto](./wiki) 
+Accede a la [Wiki del Proyecto](https://github.com/MADiazV1/Telematica-Proyecto-2-AWS/wiki) 
 
 ---
 
